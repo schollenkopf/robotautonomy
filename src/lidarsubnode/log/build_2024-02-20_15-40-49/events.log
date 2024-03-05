@@ -1,0 +1,55 @@
+[0.000000] (-) TimerEvent: {}
+[0.000366] (lidarsubnode) JobQueued: {'identifier': 'lidarsubnode', 'dependencies': OrderedDict()}
+[0.000447] (lidarsubnode) JobStarted: {'identifier': 'lidarsubnode'}
+[0.102463] (-) TimerEvent: {}
+[0.203453] (-) TimerEvent: {}
+[0.304440] (-) TimerEvent: {}
+[0.405097] (-) TimerEvent: {}
+[0.505789] (-) TimerEvent: {}
+[0.607486] (-) TimerEvent: {}
+[0.708201] (-) TimerEvent: {}
+[0.812631] (-) TimerEvent: {}
+[0.913297] (-) TimerEvent: {}
+[1.013783] (-) TimerEvent: {}
+[1.114455] (-) TimerEvent: {}
+[1.215058] (-) TimerEvent: {}
+[1.315599] (-) TimerEvent: {}
+[1.403395] (lidarsubnode) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'egg_info', '--egg-base', 'build/lidarsubnode', 'build', '--build-base', '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build', 'install', '--record', '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log', '--single-version-externally-managed'], 'cwd': '/home/ubuntu/ros2_ws/src/lidarsubnode', 'env': {'VNCDESKTOP': '7c6dcdb50ffe:1 (ubuntu)', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'QT_SCALE_FACTOR': '1', 'USER': 'ubuntu', 'SUPERVISOR_GROUP_NAME': 'vnc', 'HOSTNAME': '7c6dcdb50ffe', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/ubuntu', 'OLDPWD': '/home/ubuntu/ros2_ws', 'GIO_LAUNCHED_DESKTOP_FILE': '/home/ubuntu/Desktop/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'LC_CTYPE': 'C.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:abstract=/tmp/dbus-0UPb9D9WC4,guid=ad854ab826b71b274a275d7c65d494de', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '2681', 'GNOME_KEYRING_CONTROL': '/home/ubuntu/.cache/keyring-NRYSJ2', 'COLCON_PREFIX_PATH': '/home/ubuntu/ros2_ws/src/lidarsubnode/install:/home/ubuntu/ros2_ws/install', 'ROS_DISTRO': 'humble', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'GTK_OVERLAY_SCROLLING': '0', 'GAZEBO_MODEL_PATH': ':/home/ubuntu/ros2_ws/install/my_turtlebot/share/my_turtlebot/models:/opt/ros/humble/share/turtlebot3_gazebo/models', 'ROS_LOCALHOST_ONLY': '0', 'INSIDE_CAJA_PYTHON': '', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'SESSION_MANAGER': 'local/7c6dcdb50ffe:@/tmp/.ICE-unix/65,unix/7c6dcdb50ffe:/tmp/.ICE-unix/65', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'XDG_CURRENT_DESKTOP': 'MATE', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'SUPERVISOR_ENABLED': '1', 'SSH_AUTH_SOCK': '/home/ubuntu/.cache/keyring-NRYSJ2/ssh', 'ROS_DOMAIN_ID': '11', 'AMENT_PREFIX_PATH': '/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode:/home/ubuntu/ros2_ws/install/my_turtlebot:/home/ubuntu/ros2_ws/install/lidarsubnode:/opt/ros/humble', 'TERMINATOR_UUID': 'urn:uuid:504180ef-27ea-4fe5-b9f0-47c4915607be', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'PASSWD': 'ubuntu', 'SUPERVISOR_SERVER_URL': 'unix:///var/run/supervisor.sock', 'SUPERVISOR_PROCESS_NAME': 'vnc', 'PWD': '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode', 'TURTLEBOT3_MODEL': 'burger', 'PYTHONPATH': '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/prefix_override:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:/home/ubuntu/ros2_ws/install/my_turtlebot/lib/python3.10/site-packages:/home/ubuntu/ros2_ws/install/lidarsubnode/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'MATE_DESKTOP_SESSION_ID': 'this-is-deprecated', 'COLCON': '1', 'VTE_VERSION': '6800', 'QT_FONT_DPI': '96'}, 'shell': False}
+[1.416003] (-) TimerEvent: {}
+[1.516547] (-) TimerEvent: {}
+[1.617101] (-) TimerEvent: {}
+[1.717677] (-) TimerEvent: {}
+[1.781653] (lidarsubnode) StdoutLine: {'line': b'running egg_info\n'}
+[1.784361] (lidarsubnode) StdoutLine: {'line': b'writing build/lidarsubnode/lidarsubnode.egg-info/PKG-INFO\n'}
+[1.784798] (lidarsubnode) StdoutLine: {'line': b'writing dependency_links to build/lidarsubnode/lidarsubnode.egg-info/dependency_links.txt\n'}
+[1.784943] (lidarsubnode) StdoutLine: {'line': b'writing entry points to build/lidarsubnode/lidarsubnode.egg-info/entry_points.txt\n'}
+[1.787411] (lidarsubnode) StdoutLine: {'line': b'writing requirements to build/lidarsubnode/lidarsubnode.egg-info/requires.txt\n'}
+[1.787868] (lidarsubnode) StdoutLine: {'line': b'writing top-level names to build/lidarsubnode/lidarsubnode.egg-info/top_level.txt\n'}
+[1.789036] (lidarsubnode) StdoutLine: {'line': b"reading manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'\n"}
+[1.790448] (lidarsubnode) StdoutLine: {'line': b"writing manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'\n"}
+[1.790593] (lidarsubnode) StdoutLine: {'line': b'running build\n'}
+[1.790840] (lidarsubnode) StdoutLine: {'line': b'running build_py\n'}
+[1.791237] (lidarsubnode) StdoutLine: {'line': b'copying lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode\n'}
+[1.791931] (lidarsubnode) StderrLine: {'line': b'/usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[1.792104] (lidarsubnode) StderrLine: {'line': b'  warnings.warn(\n'}
+[1.792257] (lidarsubnode) StdoutLine: {'line': b'running install\n'}
+[1.792411] (lidarsubnode) StdoutLine: {'line': b'running install_lib\n'}
+[1.793133] (lidarsubnode) StdoutLine: {'line': b'copying /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode\n'}
+[1.793747] (lidarsubnode) StdoutLine: {'line': b'byte-compiling /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode/lidarsub.py to lidarsub.cpython-310.pyc\n'}
+[1.794323] (lidarsubnode) StdoutLine: {'line': b'running install_data\n'}
+[1.794511] (lidarsubnode) StderrLine: {'line': b'  File "/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode/lidarsub.py", line 49\n'}
+[1.794671] (lidarsubnode) StderrLine: {'line': b'    \xe2\x80\x9a\n'}
+[1.794885] (lidarsubnode) StderrLine: {'line': b'    ^\n'}
+[1.795203] (lidarsubnode) StderrLine: {'line': b"SyntaxError: invalid character '\xe2\x80\x9a' (U+201A)\n"}
+[1.795546] (lidarsubnode) StderrLine: {'line': b'\n'}
+[1.796062] (lidarsubnode) StdoutLine: {'line': b'running install_egg_info\n'}
+[1.797610] (lidarsubnode) StdoutLine: {'line': b"removing '/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info' (and everything under it)\n"}
+[1.798221] (lidarsubnode) StdoutLine: {'line': b'Copying build/lidarsubnode/lidarsubnode.egg-info to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info\n'}
+[1.799539] (lidarsubnode) StdoutLine: {'line': b'running install_scripts\n'}
+[1.817919] (-) TimerEvent: {}
+[1.830312] (lidarsubnode) StdoutLine: {'line': b'Installing listener script to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/lidarsubnode\n'}
+[1.830888] (lidarsubnode) StdoutLine: {'line': b"writing list of installed files to '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log'\n"}
+[1.870304] (lidarsubnode) CommandEnded: {'returncode': 0}
+[1.918579] (-) TimerEvent: {}
+[1.959758] (lidarsubnode) JobEnded: {'identifier': 'lidarsubnode', 'rc': 0}
+[1.961222] (-) EventReactorShutdown: {}

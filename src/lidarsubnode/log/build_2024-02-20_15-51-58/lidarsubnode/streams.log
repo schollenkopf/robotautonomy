@@ -1,0 +1,24 @@
+[2.596s] Invoking command in '/home/ubuntu/ros2_ws/src/lidarsubnode': PYTHONPATH=/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/prefix_override:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/lidarsubnode build --build-base /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build install --record /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log --single-version-externally-managed
+[3.359s] running egg_info
+[3.360s] writing build/lidarsubnode/lidarsubnode.egg-info/PKG-INFO
+[3.361s] writing dependency_links to build/lidarsubnode/lidarsubnode.egg-info/dependency_links.txt
+[3.362s] writing entry points to build/lidarsubnode/lidarsubnode.egg-info/entry_points.txt
+[3.362s] writing requirements to build/lidarsubnode/lidarsubnode.egg-info/requires.txt
+[3.363s] writing top-level names to build/lidarsubnode/lidarsubnode.egg-info/top_level.txt
+[3.367s] reading manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'
+[3.369s] writing manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'
+[3.369s] running build
+[3.369s] running build_py
+[3.370s] copying lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode
+[3.371s] running install
+[3.371s] running install_lib
+[3.371s] copying /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode
+[3.372s] byte-compiling /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode/lidarsub.py to lidarsub.cpython-310.pyc
+[3.373s] running install_data
+[3.376s] running install_egg_info
+[3.379s] removing '/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info' (and everything under it)
+[3.379s] Copying build/lidarsubnode/lidarsubnode.egg-info to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info
+[3.386s] running install_scripts
+[3.424s] Installing listener script to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/lidarsubnode
+[3.424s] writing list of installed files to '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log'
+[3.521s] Invoked command in '/home/ubuntu/ros2_ws/src/lidarsubnode' returned '0': PYTHONPATH=/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/prefix_override:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/lidarsubnode build --build-base /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build install --record /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log --single-version-externally-managed

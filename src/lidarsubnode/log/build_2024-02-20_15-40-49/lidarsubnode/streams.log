@@ -1,0 +1,31 @@
+[1.410s] Invoking command in '/home/ubuntu/ros2_ws/src/lidarsubnode': PYTHONPATH=/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/prefix_override:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/lidarsubnode build --build-base /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build install --record /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log --single-version-externally-managed
+[1.782s] running egg_info
+[1.784s] writing build/lidarsubnode/lidarsubnode.egg-info/PKG-INFO
+[1.784s] writing dependency_links to build/lidarsubnode/lidarsubnode.egg-info/dependency_links.txt
+[1.785s] writing entry points to build/lidarsubnode/lidarsubnode.egg-info/entry_points.txt
+[1.787s] writing requirements to build/lidarsubnode/lidarsubnode.egg-info/requires.txt
+[1.788s] writing top-level names to build/lidarsubnode/lidarsubnode.egg-info/top_level.txt
+[1.789s] reading manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'
+[1.790s] writing manifest file 'build/lidarsubnode/lidarsubnode.egg-info/SOURCES.txt'
+[1.790s] running build
+[1.791s] running build_py
+[1.791s] copying lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode
+[1.792s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.792s]   warnings.warn(
+[1.792s] running install
+[1.792s] running install_lib
+[1.793s] copying /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build/lib/lidarsubnode/lidarsub.py -> /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode
+[1.793s] byte-compiling /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode/lidarsub.py to lidarsub.cpython-310.pyc
+[1.794s] running install_data
+[1.794s]   File "/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode/lidarsub.py", line 49
+[1.794s]     ‚
+[1.795s]     ^
+[1.795s] SyntaxError: invalid character '‚' (U+201A)
+[1.795s] 
+[1.796s] running install_egg_info
+[1.797s] removing '/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info' (and everything under it)
+[1.798s] Copying build/lidarsubnode/lidarsubnode.egg-info to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages/lidarsubnode-0.0.0-py3.10.egg-info
+[1.799s] running install_scripts
+[1.830s] Installing listener script to /home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/lidarsubnode
+[1.831s] writing list of installed files to '/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log'
+[1.870s] Invoked command in '/home/ubuntu/ros2_ws/src/lidarsubnode' returned '0': PYTHONPATH=/home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/prefix_override:/home/ubuntu/ros2_ws/src/lidarsubnode/install/lidarsubnode/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/lidarsubnode build --build-base /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/build install --record /home/ubuntu/ros2_ws/src/lidarsubnode/build/lidarsubnode/install.log --single-version-externally-managed

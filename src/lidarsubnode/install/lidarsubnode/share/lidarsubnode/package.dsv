@@ -1,0 +1,6 @@
+source;share/lidarsubnode/hook/pythonpath.ps1
+source;share/lidarsubnode/hook/pythonpath.dsv
+source;share/lidarsubnode/hook/pythonpath.sh
+source;share/lidarsubnode/hook/ament_prefix_path.ps1
+source;share/lidarsubnode/hook/ament_prefix_path.dsv
+source;share/lidarsubnode/hook/ament_prefix_path.sh
