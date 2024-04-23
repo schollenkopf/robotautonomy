@@ -1,5 +1,6 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.action import ActionClient
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 # from rclpy import time
 import numpy
@@ -10,7 +11,9 @@ import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData, Odometry
 from nav2_msgs.msg import ParticleCloud
+from nav2_msgs.action import  NavigateToPose
 from lidarsubnode.prm import *
+from lidarsubnode.raycast import *
 
 import laser_geometry.laser_geometry as lg
 
@@ -20,7 +23,6 @@ class Map():
     mean = []
     map_size = (200,200)
     cell_size=0.1
-    step_size = min(0.1,0.1)/2
     center = np.array([100,100])
     last_rotation_timestamp = -10
     
@@ -60,22 +62,13 @@ class Map():
     def draw_point(self,r, a,color=False):
         if r>3.5:
             r=3.5
-        for t in range(math.ceil(r/self.step_size)):
-            t = t * self.step_size
-
-            x = t*np.cos(a)
-            y = t*np.sin(a)
-            
-            map_x = int(self.center[0]+x/self.cell_size)
-            map_y = int(self.center[1]+y/self.cell_size)
-
+        cells = ray_cast(r,a,self.center[0],self.center[1],self.cell_size)
+        for map_x,map_y in cells:
             self.map[map_x,map_y] = max(self.map[map_x,map_y]-1,0)
             if color:
                 self.map[map_x,map_y] = 220
         if r<3.5 and not color:
             self.map[map_x,map_y] = max(self.map[map_x,map_y]+1,100)
-
-
         
     
     def update_map(self,msg):
@@ -87,8 +80,6 @@ class Map():
         
         vdraw_point = np.vectorize(self.draw_point)
         vdraw_point(ranges,angles)
-
-
 
 
     def icp(self,points,mean):
@@ -152,7 +143,6 @@ class Map():
 
     def update_odom(self,msg):
         self.center = np.array([msg.pose.pose.position.x/self.cell_size+ 100,msg.pose.pose.position.y/self.cell_size + 100])
-        print(self.center)
         x = msg.pose.pose.orientation.x
         y = msg.pose.pose.orientation.y
         z = msg.pose.pose.orientation.z
@@ -178,12 +168,21 @@ class Map():
                 self.update_map(msg)
         elif self.last_rotation_timestamp < msg.header.stamp.sec - 1:
             self.update_map(msg)
-        self.draw_point(0.5,self.angle_offset,True)
-        self.map[int(self.center[0]),int(self.center[1])] = 200
+        # self.draw_point(0.5,self.angle_offset,True)
+        # self.map[int(self.center[0]),int(self.center[1])] = 200
 
         grid = self.numpy_to_occupancy_grid(self.map)
         grid.header.stamp = msg.header.stamp
         return grid
+    
+    def explore_next_step(self):
+        prm = PRM(15,20,3,self.map,self.cell_size)
+
+        prm.generate_random_nodes()
+        prm.add_robot(self.center[0],self.center[1])
+        prm.compute_edges()
+        return prm.next_best_view()
+
 
         
         
@@ -216,6 +215,8 @@ class MinimalSubscriber(Node):
 
         ))
 
+        self.navigate_to = ActionClient(self,NavigateToPose,'/navigate_to_pose/goal')
+
         self.odom_subscription = self.create_subscription(Odometry, '/odom',self.odom_callback,10)
 
         self.particles
@@ -223,11 +224,45 @@ class MinimalSubscriber(Node):
         self.subscription  # prevent unused variable warning
         self.delay = 15
         self.map = Map()
+        self.pose_sent = False
+        
+    
+
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            print('Goal rejected :(')
+        else:
+            print('Goal accepted :)')
+
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.get_result_callback)
+
+    def get_result_callback(self, future):
+        result = future.result().result
+        print('Result: {0}'.format(result.sequence))
+        self.send_pose()
+
+    
+
+    def send_pose(self):
+        print("Calculating pose")
+        x,y = self.map.explore_next_step()
+        pose_goal = NavigateToPose.Goal()
+        pose_goal.pose.pose.position.x = x
+        pose_goal.pose.pose.position.y = y
+        self._send_goal_future = self.navigate_to.send_goal_async(pose_goal)
+
+        self._send_goal_future.add_done_callback(self.goal_response_callback)
+        print(x,y)
 
     def listener_callback(self, msg):
         grid = self.map.update(msg)
 
         self.map_publisher.publish(grid)
+        if not self.pose_sent:
+            self.send_pose()
+            self.pose_sent = True
 
     def odom_callback(self,msg):
         self.map.update_odom(msg)
