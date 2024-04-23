@@ -54,7 +54,7 @@ class Rrt:
                     g_best = g_new
         print("number nodes:",len(self.vertex))
         print("best gain:", g_best)
-        return self.extract_path(n_best)[-5]
+        return self.extract_path(n_best)
     
     def calc_gain(self,node):
         
@@ -101,12 +101,15 @@ class Rrt:
     def extract_path(self, node_end):
         path = []
         node_now = node_end
-
-        while node_now.parent is not None:
+        distance = 0
+        while node_now.parent is not None and distance < 3.5:
             node_now = node_now.parent
+            distance = math.sqrt((node_now.y-self.s_start.y)**2+(node_now.x-self.s_start.x)**2)
             path.append((node_now.x, node_now.y))
-
-        return path
+        if distance>3.5:
+            print("distance > 3.5")
+            return (node_now.x, node_now.y)
+        return path[-3]
 
     @staticmethod
     def get_distance_and_angle(node_start, node_end):

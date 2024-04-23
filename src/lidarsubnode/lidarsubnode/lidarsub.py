@@ -176,7 +176,7 @@ class Map():
         return grid
     
     def explore_next_step(self):
-        rrt = Rrt(((self.center[0]-100)*self.cell_size,(self.center[1]-100)*self.cell_size),step_len=0.8,num_nodes=500,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size)
+        rrt = Rrt(((self.center[0]-100)*self.cell_size,(self.center[1]-100)*self.cell_size),step_len=1.5,num_nodes=1000,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size)
         return rrt.planning()
 
 
