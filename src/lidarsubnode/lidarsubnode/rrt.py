@@ -52,8 +52,9 @@ class Rrt:
                 if g_new > g_best:
                     n_best = node_new
                     g_best = g_new
+        print("number nodes:",len(self.vertex))
         print("best gain:", g_best)
-        return self.extract_path(n_best)[-2]
+        return self.extract_path(n_best)[-5]
     
     def calc_gain(self,node):
         
@@ -114,18 +115,3 @@ class Rrt:
         return math.hypot(dx, dy), math.atan2(dy, dx)
 
 
-def main():
-    x_start = (2, 2)  # Starting node
-    x_goal = (49, 24)  # Goal node
-
-    rrt = Rrt(x_start, x_goal, 0.5, 0.05, 10000)
-    path = rrt.planning()
-
-    if path:
-        rrt.plotting.animation(rrt.vertex, path, "RRT", True)
-    else:
-        print("No Path Found!")
-
-
-if __name__ == '__main__':
-    main()

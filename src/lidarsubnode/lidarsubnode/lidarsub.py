@@ -211,7 +211,7 @@ class MinimalSubscriber(Node):
 
         ))
 
-        self.navigate_to = ActionClient(self,NavigateToPose,'/navigate_to_pose/goal')
+        self.navigate_to = ActionClient(self,NavigateToPose,'/navigate_to_pose')
 
         self.odom_subscription = self.create_subscription(Odometry, '/odom',self.odom_callback,10)
 
@@ -221,8 +221,9 @@ class MinimalSubscriber(Node):
         self.delay = 15
         self.map = Map()
         self.pose_sent = False
-        
-    
+
+
+
 
     def goal_response_callback(self, future):
         goal_handle = future.result()
@@ -236,7 +237,7 @@ class MinimalSubscriber(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        print('Result: {0}'.format(result.sequence))
+        print('Result: {0}'.format(result))
         self.send_pose()
 
     
@@ -244,21 +245,24 @@ class MinimalSubscriber(Node):
     def send_pose(self):
         print("Calculating pose")
         x,y = self.map.explore_next_step()
+        print("x,y:",x,y)
         pose_goal = NavigateToPose.Goal()
+        pose_goal.pose.header.frame_id = 'map'
         pose_goal.pose.pose.position.x = x
         pose_goal.pose.pose.position.y = y
         self._send_goal_future = self.navigate_to.send_goal_async(pose_goal)
 
         self._send_goal_future.add_done_callback(self.goal_response_callback)
-        print(x,y)
+
+
 
     def listener_callback(self, msg):
         grid = self.map.update(msg)
 
         self.map_publisher.publish(grid)
-        # if not self.pose_sent:
-        #     self.send_pose()
-        #     self.pose_sent = True
+        if not self.pose_sent:
+            self.send_pose()
+            self.pose_sent = True
 
     def odom_callback(self,msg):
         self.map.update_odom(msg)
