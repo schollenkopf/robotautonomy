@@ -12,7 +12,7 @@ from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData, Odometry
 from nav2_msgs.msg import ParticleCloud
 from nav2_msgs.action import  NavigateToPose
-from lidarsubnode.prm import *
+from lidarsubnode.rrt import *
 from lidarsubnode.raycast import *
 
 import laser_geometry.laser_geometry as lg
@@ -176,12 +176,8 @@ class Map():
         return grid
     
     def explore_next_step(self):
-        prm = PRM(15,20,3,self.map,self.cell_size)
-
-        prm.generate_random_nodes()
-        prm.add_robot(self.center[0],self.center[1])
-        prm.compute_edges()
-        return prm.next_best_view()
+        rrt = Rrt(((self.center[0]-100)*self.cell_size,(self.center[1]-100)*self.cell_size),step_len=0.8,num_nodes=500,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size)
+        return rrt.planning()
 
 
         
@@ -260,9 +256,9 @@ class MinimalSubscriber(Node):
         grid = self.map.update(msg)
 
         self.map_publisher.publish(grid)
-        if not self.pose_sent:
-            self.send_pose()
-            self.pose_sent = True
+        # if not self.pose_sent:
+        #     self.send_pose()
+        #     self.pose_sent = True
 
     def odom_callback(self,msg):
         self.map.update_odom(msg)
