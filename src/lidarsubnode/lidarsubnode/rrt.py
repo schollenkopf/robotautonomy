@@ -10,6 +10,7 @@ import numpy as np
 from lidarsubnode.raycast import *
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Vector3, Point
+from rclpy import time
 
 
 
@@ -39,43 +40,57 @@ class Rrt:
         self.y_range = map_size
     
     def plot_path(self,path_id,n_best):
-        end_node = self.vertex.pop()
+        end_node = self.vertex[-1]
         marker = Marker()
         marker.type = Marker.LINE_STRIP
         marker.action = Marker.ADD
-        marker.scale = Vector3(0.01, 0.01, 0)
-
-        marker.color.g = 1.0
+        scale = Vector3()
+        scale.x = 0.01
+        scale.y = 0.01
+        scale.z = 0.0
+        marker.scale = scale
+        marker.id = path_id
+        # marker.header.stamp = rospy.get_rostime()
+        marker.header.frame_id = "map"
+        # marker.header.stamp = time()
+        marker.color.r = 1.0
         marker.color.a = 1.0
         if end_node.id == n_best.id:
-            marker.color.g = 0
-            marker.color.b = 1.0
-            
-        while end_node.parent is not None:
+            marker.color.r = 0.0
+            marker.color.g = 1.0
+
+        while end_node is not None and end_node in self.vertex:
+            self.vertex.remove(end_node)
             point = Point()
             point.x = end_node.x
             point.y = end_node.y
             marker.points.append(point)
-            marker.id = path_id
-            # marker.header.stamp = rospy.get_rostime()
-            marker.header.frame_id = "map"
             end_node = end_node.parent
-            self.vertex.remove(end_node)
+        
+        #print connection to rest of tree
+        if end_node is not None:
+            point = Point()
+            point.x = end_node.x
+            point.y = end_node.y
+            marker.points.append(point)
+            
         return marker
     
     def plot_paths(self,n_best):
         marker_array = MarkerArray()
-        self.vertex = self.vertex.reverse()
+        self.vertex
         path_id = 0
+        print("Plotting path..")
         while self.vertex is not None and len(self.vertex) > 0:
             marker_array.markers.append(self.plot_path(path_id,n_best))
             path_id += 1
-        self.path_publisher.pub(marker_array)
+        self.path_publisher.publish(marker_array)
 
     def planning(self):
         self.gain = {}
         self.gain[0] = 0
         g_best = 0
+        g_max = 3.5/self.cell_size/2 ** 2 * math.pi * math.exp(0.7 * self.step_len)
         n_best = self.s_start
         for i in range(self.iter_max):
             node_rand = self.generate_random_node()
@@ -89,6 +104,8 @@ class Rrt:
                 if g_new > g_best:
                     n_best = node_new
                     g_best = g_new
+                if g_best >= g_max:
+                    break
         print("number nodes:",len(self.vertex))
         
         print("best gain:", g_best)
