@@ -3,19 +3,20 @@ from rclpy.node import Node
 from rclpy.action import ActionClient
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 # from rclpy import time
-import numpy
+
 from sensor_msgs.msg import LaserScan
-from scipy.spatial.transform import Rotation
+
 import math
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData, Odometry
 from nav2_msgs.msg import ParticleCloud
 from nav2_msgs.action import  NavigateToPose
+
 from lidarsubnode.rrt import *
 from lidarsubnode.raycast import *
 
-import laser_geometry.laser_geometry as lg
+from visualization_msgs.msg import MarkerArray
 
 
 class Map():
@@ -175,8 +176,8 @@ class Map():
         grid.header.stamp = msg.header.stamp
         return grid
     
-    def explore_next_step(self):
-        rrt = Rrt(((self.center[0]-100)*self.cell_size,(self.center[1]-100)*self.cell_size),step_len=1.5,num_nodes=1000,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size)
+    def explore_next_step(self,rrt_publisher):
+        rrt = Rrt(((self.center[0]-100)*self.cell_size,(self.center[1]-100)*self.cell_size),step_len=1.5,num_nodes=1000,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size,path_publisher = rrt_publisher)
         return rrt.planning()
 
 
@@ -198,7 +199,7 @@ class MinimalSubscriber(Node):
             self.listener_callback,
             10)
         self.map_publisher = self.create_publisher(OccupancyGrid, '/map2', 10)
-
+        self.rrt_publisher = self.create_publisher(MarkerArray, '/plan2', 10)
         self.particles = self.create_subscription(
         ParticleCloud,
         '/particle_cloud',
@@ -244,7 +245,7 @@ class MinimalSubscriber(Node):
 
     def send_pose(self):
         print("Calculating pose")
-        x,y = self.map.explore_next_step()
+        x,y = self.map.explore_next_step(self.rrt_publisher)
         print("x,y:",x,y)
         pose_goal = NavigateToPose.Goal()
         pose_goal.pose.header.frame_id = 'map'

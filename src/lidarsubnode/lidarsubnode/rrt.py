@@ -8,7 +8,8 @@ RRT_2D
 import math
 import numpy as np
 from lidarsubnode.raycast import *
-
+from visualization_msgs.msg import Marker, MarkerArray
+from geometry_msgs.msg import Vector3, Point
 
 
 
@@ -23,7 +24,7 @@ class NodeRrt:
 
 
 class Rrt:
-    def __init__(self, s_start,  step_len, num_nodes, map_size, occupancy_grid, cell_size):
+    def __init__(self, s_start,  step_len, num_nodes, map_size, occupancy_grid, cell_size,path_publisher):
         self.s_start = NodeRrt(s_start,0)
         self.step_len = step_len
         
@@ -31,10 +32,45 @@ class Rrt:
         self.occupancy_grid = occupancy_grid
         self.cell_size = cell_size
         self.vertex = [self.s_start]
+        self.path_publisher = path_publisher
+        self.pose_sequence = []
 
         self.x_range = map_size
         self.y_range = map_size
-        
+    
+    def plot_path(self,path_id,n_best):
+        end_node = self.vertex.pop()
+        marker = Marker()
+        marker.type = Marker.LINE_STRIP
+        marker.action = Marker.ADD
+        marker.scale = Vector3(0.01, 0.01, 0)
+
+        marker.color.g = 1.0
+        marker.color.a = 1.0
+        if end_node.id == n_best.id:
+            marker.color.g = 0
+            marker.color.b = 1.0
+            
+        while end_node.parent is not None:
+            point = Point()
+            point.x = end_node.x
+            point.y = end_node.y
+            marker.points.append(point)
+            marker.id = path_id
+            # marker.header.stamp = rospy.get_rostime()
+            marker.header.frame_id = "map"
+            end_node = end_node.parent
+            self.vertex.remove(end_node)
+        return marker
+    
+    def plot_paths(self,n_best):
+        marker_array = MarkerArray()
+        self.vertex = self.vertex.reverse()
+        path_id = 0
+        while self.vertex is not None and len(self.vertex) > 0:
+            marker_array.markers.append(self.plot_path(path_id,n_best))
+            path_id += 1
+        self.path_publisher.pub(marker_array)
 
     def planning(self):
         self.gain = {}
@@ -48,13 +84,17 @@ class Rrt:
 
             if node_new and not self.path_collides_obstacle(node_near, node_new):
                 self.vertex.append(node_new)
+                
                 g_new = self.calc_gain(node_new)
                 if g_new > g_best:
                     n_best = node_new
                     g_best = g_new
         print("number nodes:",len(self.vertex))
+        
         print("best gain:", g_best)
-        return self.extract_path(n_best)
+        best_path = self.extract_path(n_best)
+        self.plot_paths(n_best)
+        return best_path
     
     def calc_gain(self,node):
         
