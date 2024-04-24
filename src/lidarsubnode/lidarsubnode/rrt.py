@@ -17,11 +17,12 @@ from rclpy import time
 
 
 class NodeRrt:
-    def __init__(self, n, id):
+    def __init__(self, n, id, path_len = 0):
         self.id = id
         self.x = n[0]
         self.y = n[1]
         self.parent = None
+        self.path_len = path_len
 
 
 class Rrt:
@@ -90,7 +91,8 @@ class Rrt:
         self.gain = {}
         self.gain[0] = 0
         g_best = 0
-        g_max = 3.5/self.cell_size/2 ** 2 * math.pi * math.exp(0.7 * self.step_len)
+        g_max = (3.5/self.cell_size/2) ** 2 * math.pi * math.exp(-0.7 * self.step_len) * 400
+        print("gmx",g_max) 
         n_best = self.s_start
         for i in range(self.iter_max):
             node_rand = self.generate_random_node()
@@ -117,8 +119,10 @@ class Rrt:
         
         prev_gain = self.gain[node.parent.id] 
         visible =  ray_cast_gain(self.occupancy_grid,node.x,node.y,self.cell_size)
-        y = 0.7
+        y = 0.01
         edge_length = math.sqrt((node.parent.y-node.y)**2+(node.parent.x-node.x)**2)
+        path_length = edge_length + node.parent.path_len
+        node.path_len = path_length
         gain =  prev_gain + visible * math.e**(-y*edge_length)
         self.gain[node.id] = gain
         return gain
@@ -159,14 +163,14 @@ class Rrt:
         path = []
         node_now = node_end
         distance = 0
-        while node_now.parent is not None and distance < 3.5:
+        while node_now.parent is not None:
             node_now = node_now.parent
             distance = math.sqrt((node_now.y-self.s_start.y)**2+(node_now.x-self.s_start.x)**2)
             path.append((node_now.x, node_now.y))
-        if distance>3.5:
-            print("distance > 3.5")
-            return (node_now.x, node_now.y)
-        return path[-3]
+            if distance<3.5:
+                print("distance < 3.5")
+                return (node_now.x, node_now.y)
+        return path[-2]
 
     @staticmethod
     def get_distance_and_angle(node_start, node_end):

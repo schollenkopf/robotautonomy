@@ -69,7 +69,7 @@ class Map():
             if color:
                 self.map[map_x,map_y] = 220
         if r<3.5 and not color:
-            self.map[map_x,map_y] = max(self.map[map_x,map_y]+1,100)
+            self.map[map_x,map_y] = 100
         
     
     def update_map(self,msg):
