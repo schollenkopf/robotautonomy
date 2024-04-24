@@ -1,20 +1,22 @@
 from math import ceil
 from numpy import cos,sin,pi
 
-def ray_cast(r,a,curr_x,curr_y,cell_size):
+def ray_cast(r,a,x_index,y_index,cell_size):
     step_size = cell_size/2
     cells = []
     t = 0
     while t < r:
         t = t + step_size
-        x = t*cos(a)
-        y = t*sin(a)
-        map_x = int(curr_x+x/cell_size)
-        map_y = int(curr_y+y/cell_size)
-        cells.append((map_x,map_y))
+        x_d = t*cos(a)
+        y_d = t*sin(a)
+        map_x = int(x_index+x_d/cell_size)
+        map_y = int(y_index+y_d/cell_size)
+        if not (map_x >= 200 or map_y >= 200 or map_x < 0 or map_y < 0):
+            cells.append((map_x,map_y))
+        
     return cells
 
-def ray_cast_gain(map,curr_x,curr_y,cell_size,max_range=3.5):
+def ray_cast_gain(map,x_coord,y_coord,cell_size,max_range=3.5):
     step_size = cell_size/2
     gain = 0
     t = 0
@@ -24,15 +26,15 @@ def ray_cast_gain(map,curr_x,curr_y,cell_size,max_range=3.5):
         a = a+rad_step
         while t < max_range:
             t = t + step_size
-            x = t*cos(a)
-            y = t*sin(a)
-            map_x = int((curr_x+x)/cell_size)+100
-            map_y = int((curr_y+y)/cell_size)+100
-            if map_x >= 200 or map_y >= 200 and map_x < 0 and map_y < 0:
+            x_d = t*cos(a)
+            y_d = t*sin(a)
+            x_index = int((x_coord+x_d)/cell_size)+100
+            y_index = int((y_coord+y_d)/cell_size)+100
+            if x_index >= 200 or y_index >= 200 or x_index < 0 or y_index < 0:
                 break
-            if map[map_x,map_y] > 20 :
+            if map[x_index,y_index] > 20:
                 break
-            if map[map_x,map_y] == -1:
+            if map[x_index,y_index] == -1:
                 gain += 1
         
     return gain

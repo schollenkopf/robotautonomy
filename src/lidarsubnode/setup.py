@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'listener = lidarsubnode.lidarsub:main',
+            'nextbestview = lidarsubnode.nextbestview:main'
         ],
     },
 )
