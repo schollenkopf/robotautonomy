@@ -37,7 +37,7 @@ class Map():
 
         return grid
 
-    def draw_point(self,r, a,color=False):
+    def draw_point(self,r, a):
         if r>3.5:
             r=3.5
         cells = ray_cast(r,a,self.robot_cell[0],self.robot_cell[1],self.cell_size)
