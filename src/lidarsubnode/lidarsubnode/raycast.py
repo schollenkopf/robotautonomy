@@ -2,20 +2,6 @@ from numpy import cos,sin,pi
 import numpy as np
 import math
 
-def ray_cast(r,a,x_index,y_index,cell_size):
-    step_size = cell_size/2
-    cells = []
-    t = 0
-    while t < r:
-        t = t + step_size
-        x_d = t*cos(a)
-        y_d = t*sin(a)
-        map_x = int(x_index+x_d/cell_size)
-        map_y = int(y_index+y_d/cell_size)
-        if not (map_x >= 200 or map_y >= 200 or map_x < 0 or map_y < 0):
-            cells.append((map_x,map_y))
-        
-    return cells
 
 def bresenham(start, end) -> np.ndarray:
     """
@@ -63,17 +49,15 @@ def bresenham(start, end) -> np.ndarray:
     points = np.array(points)
     return points
 
+def ray_cast(r,a,x_index,y_index,cell_size):
+    x_d = r*cos(a)
+    y_d = r*sin(a)
+    map_x = int(x_index+x_d/cell_size)
+    map_y = int(y_index+y_d/cell_size)
+    return bresenham((int(x_index),int(y_index)), (map_x,map_y))
+
+
 def ray_cast_gain(map,x_coord,y_coord,cell_size,max_range=3.5) -> int:
-    """
-    Calculate the number unknown cells in view, with an option 
-    to plot the map with unknown, free, and obstacle cells.
-
-    Args:
-        node (Tuple[float, float]): The node position
-
-    Returns:
-        gain (int): Number of unknown cells reached
-    """
     unknown_cells = set()
     rad_step = (2*pi)/360
     x_index = int((x_coord)/cell_size)+100

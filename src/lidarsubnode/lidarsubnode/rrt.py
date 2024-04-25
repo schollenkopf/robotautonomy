@@ -118,7 +118,7 @@ class Rrt:
     def calc_gain(self,node):
         prev_gain = node.parent.gain
         visible =  ray_cast_gain(self.occupancy_grid,node.x,node.y,self.cell_size)
-        y = 0.01
+        y = 0.3
         edge_length = math.sqrt((node.parent.y-node.y)**2+(node.parent.x-node.x)**2)
         path_length = edge_length + node.parent.path_len
         node.path_len = path_length
