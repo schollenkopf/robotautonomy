@@ -2,7 +2,6 @@ import math
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
 from nav_msgs.msg import MapMetaData
-from lidarsubnode.rrt import *
 from lidarsubnode.raycast import *
 
 
@@ -20,6 +19,7 @@ class Map():
         self.map = np.full(self.map_size,-1,dtype=np.int8) #one cell = 0.1*0.1
 
     def numpy_to_occupancy_grid(self,arr):
+        #used to publish map to topic
         grid = OccupancyGrid()
         grid.data = arr.flatten().astype(np.int8).tolist()
         grid.info = MapMetaData()
@@ -38,6 +38,7 @@ class Map():
         return grid
 
     def draw_point(self,r, a):
+        #fill out cells of map according to the lidar measurement
         if r>3.5:
             r=3.5
         cells = ray_cast(r,a,self.robot_cell[0],self.robot_cell[1],self.cell_size)
@@ -47,6 +48,7 @@ class Map():
             self.map[map_x,map_y] = 100
         
     def update_map(self,msg):
+        #draw points for all measurement in a lidar scan
         ranges = msg.ranges
         inc = msg.angle_increment
         angles = [inc*i+self.angle_offset for i in range(len(ranges))]
@@ -55,6 +57,7 @@ class Map():
 
 
     def update_odom(self,msg):
+        #get the robots pose from the odometry
         self.robot_coords = np.array([msg.pose.pose.position.x,msg.pose.pose.position.y])
         self.robot_cell = np.round(self.robot_coords/self.cell_size + 100)
         x = msg.pose.pose.orientation.x
@@ -69,15 +72,13 @@ class Map():
         self.angle_offset = new_angle_offset
 
     def update(self,msg,icp=False):
+        #update the map only if the robot has not rotated for at least 1 sec to avoid artifacts in the map
         if self.last_rotation_timestamp < msg.header.stamp.sec - 1:
             self.update_map(msg)
         grid = self.numpy_to_occupancy_grid(self.map)
         grid.header.stamp = msg.header.stamp
         return grid
     
-    def explore_next_step(self,rrt_publisher):
-        rrt = Rrt(self.robot_coords,step_len=1.5,iter_max=1000,map_size=20,occupancy_grid=self.map,cell_size=self.cell_size,path_publisher = rrt_publisher)
-        return rrt.planning()
 
 
         

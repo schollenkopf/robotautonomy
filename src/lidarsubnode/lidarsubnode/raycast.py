@@ -1,6 +1,5 @@
 from numpy import cos,sin,pi
 import numpy as np
-import math
 
 
 def bresenham(start, end) -> np.ndarray:
@@ -50,6 +49,7 @@ def bresenham(start, end) -> np.ndarray:
     return points
 
 def ray_cast(r,a,x_index,y_index,cell_size):
+    #get cells hit by ray from x_index, y_indey with length r and angle a
     x_d = r*cos(a)
     y_d = r*sin(a)
     map_x = int(x_index+x_d/cell_size)
@@ -57,7 +57,9 @@ def ray_cast(r,a,x_index,y_index,cell_size):
     return bresenham((int(x_index),int(y_index)), (map_x,map_y))
 
 
-def ray_cast_gain(map,x_coord,y_coord,cell_size,max_range=3.5) -> int:
+def ray_cast_gain(map,x_coord,y_coord,cell_size,max_range=3.5):
+    #cast rays in all direction from x_coord,y_coord of length 3.5 to count the unknown cells the lidar would be able to see 
+    #if it was at that position
     unknown_cells = set()
     rad_step = (2*pi)/360
     x_index = int((x_coord)/cell_size)+100
@@ -78,27 +80,3 @@ def ray_cast_gain(map,x_coord,y_coord,cell_size,max_range=3.5) -> int:
             if map[x,y] == -1:
                 unknown_cells.add((x,y))
     return len(unknown_cells)
-
-def ray_cast_gain2(map,x_coord,y_coord,cell_size,max_range=3.5):
-    step_size = cell_size/2
-    gain = 0
-    t = 0
-    a = 0
-    rad_step = (2*pi)/360
-    for i in range(0,360):
-        a = a+rad_step
-        while t < max_range:
-            t = t + step_size
-            x_d = t*cos(a)
-            y_d = t*sin(a)
-            x_index = int((x_coord+x_d)/cell_size)+100
-            y_index = int((y_coord+y_d)/cell_size)+100
-            if x_index >= 200 or y_index >= 200 or x_index < 0 or y_index < 0:
-                break
-            if map[x_index,y_index] > 20:
-                break
-            if map[x_index,y_index] == -1:
-                print("-1 at:",x_index,y_index)
-                gain += 1
-        
-    return gain

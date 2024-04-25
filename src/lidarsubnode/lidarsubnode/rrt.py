@@ -1,10 +1,6 @@
 """
-RRT_2D
-@author: huiming zhou
+The structure of the rrt is very much inspired by: https://github.com/zhm-real/PathPlanning?fbclid=IwZXh0bgNhZW0CMTAAAR2zUx0QhjKcFQDNHIYBb1dNxULwuoiSdDCWjSZmrs_4Qda1By62Lf9XmaE_aem_ATlQqLFUj5i9gDiOPccFlVSOOiY_GwIcLv4zm6_MpZi2aIWft5CQEcJL_27muaNezgxnHV55GQP2OoiQrStLI5tb
 """
-
-
-
 import math
 import numpy as np
 from lidarsubnode.raycast import *
@@ -87,7 +83,7 @@ class Rrt:
         self.path_publisher.publish(marker_array)
 
     def planning(self):
-
+        #this algorithm is pretty much what is on the slides for next best view
         g_best = 0 #best found gain value
         n_best = self.robot_node #node with best gain
         g_max = (3.5/self.cell_size/2) ** 2 * math.pi * math.exp(-0.7 * self.step_len) * 3  #gain value at which search stops because it corresponds to aprox a full unknow circle scan
@@ -96,7 +92,7 @@ class Rrt:
         
         for i in range(self.iter_max):
             node_rand = self.generate_random_node()
-            node_near = self.nearest_neighbor(self.nodes, node_rand) #find node closest to new node
+            node_near = self.nearest_neighbor(node_rand) #find node closest to new node
             node_new = self.new_state(node_near, node_rand) #move in direction of new node from closest node according to step_len
 
             #check if new node and path to that node is not hitting any occupied cell
@@ -117,17 +113,18 @@ class Rrt:
     
     def calc_gain(self,node):
         prev_gain = node.parent.gain
-        visible =  ray_cast_gain(self.occupancy_grid,node.x,node.y,self.cell_size)
+        visible_unknown_cells =  ray_cast_gain(self.occupancy_grid,node.x,node.y,self.cell_size)
         y = 0.3
         edge_length = math.sqrt((node.parent.y-node.y)**2+(node.parent.x-node.x)**2)
         path_length = edge_length + node.parent.path_len
         node.path_len = path_length
-        gain =  prev_gain + visible * math.e**(-y*edge_length)
+        gain =  prev_gain + visible_unknown_cells * math.e**(-y*edge_length) #gain equation taken from slides
         node.gain = gain
         return gain
 
     
     def path_collides_obstacle(self, node1, node2):
+        #Check that path between nodes does not go through any occupied cells
         a = math.atan2(node2.y - node1.y, node2.x - node1.x)
         r = math.sqrt((node2.y-node1.y)**2+(node2.x-node1.x)**2)
         cells = ray_cast(r,a,node1.x/self.cell_size+100,node1.y/self.cell_size+100,self.cell_size)
@@ -141,11 +138,13 @@ class Rrt:
                          np.random.uniform(-self.y_range/2, self.y_range/2)),-1)
 
 
-    def nearest_neighbor(self,node_list, n):
-        return node_list[int(np.argmin([math.hypot(nd.x - n.x, nd.y - n.y)
-                                        for nd in node_list]))]
+    def nearest_neighbor(self, n):
+        #find node closed to node
+        return self.nodes[int(np.argmin([math.hypot(nd.x - n.x, nd.y - n.y)
+                                        for nd in self.nodes]))]
 
     def new_state(self, node_start, node_end):
+        #create new node at distance step_len from closest node to randomly generated node in direction of the randomly gnerated node
         dist, theta = self.get_distance_and_angle(node_start, node_end)
 
         dist = min(self.step_len, dist)
@@ -156,6 +155,7 @@ class Rrt:
         return node_new
 
     def extract_path(self, node_end):
+        #extract the path with highest gain from the tree
         path = []
         node_now = node_end
         distance = 0
@@ -163,12 +163,13 @@ class Rrt:
             node_now = node_now.parent
             distance = math.sqrt((node_now.y-self.robot_node.y)**2+(node_now.x-self.robot_node.x)**2)
             path.append((node_now.x, node_now.y))
-            if distance<3.5:
+            if distance<3.5: #try to always go at least 3.5m away from current robot position to avoid getting stuck
                 print("distance < 3.5")
                 return (node_now.x, node_now.y)
         return path[-2]
 
     def get_distance_and_angle(self,node_start, node_end):
+        #caluclate distance and angle between node. needed for node gneration
         dx = node_end.x - node_start.x
         dy = node_end.y - node_start.y
         return math.hypot(dx, dy), math.atan2(dy, dx)

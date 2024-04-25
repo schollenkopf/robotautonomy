@@ -3,8 +3,8 @@ from rclpy.node import Node
 from rclpy.action import ActionClient
 from nav_msgs.msg import OccupancyGrid, Odometry
 from nav2_msgs.action import  NavigateToPose
-from lidarsubnode.map import *
 from visualization_msgs.msg import MarkerArray
+from lidarsubnode.rrt import *
 
 class NextBestViewNode(Node):
 
